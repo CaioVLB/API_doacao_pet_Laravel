@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\InstituitionController;
+use App\Http\Controllers\AnimalController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +17,19 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::group(['prefix' => 'user'], function() {
+
+    Route::get('index', [UserController::class, 'index']);
+
+    Route::post('store', [UserController::class, 'store']);
+
+    Route::get('show/{id}', [UserController::class, 'show']);
+
+    Route::put('update/{id}', [UserController::class, 'update']);
+
+    Route::delete('destroy/{id}', [UserController::class, 'destroy']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
