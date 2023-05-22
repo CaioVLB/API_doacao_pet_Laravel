@@ -31,6 +31,33 @@ Route::group(['prefix' => 'user'], function() {
     Route::delete('destroy/{id}', [UserController::class, 'destroy']);
 });
 
+Route::group(['prefix' => 'institution'], function() {
+
+    Route::get('index', [UserController::class, 'index']);
+
+    Route::post('store', [UserController::class, 'store']);
+
+    Route::get('show/{id}', [UserController::class, 'show']);
+
+    Route::put('update/{id}', [UserController::class, 'update']);
+
+    Route::delete('destroy/{id}', [UserController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'animal'], function() {
+
+    Route::get('index', [UserController::class, 'index']);
+
+    Route::post('store', [UserController::class, 'store']);
+
+    Route::get('show/{id}', [UserController::class, 'show']);
+
+    Route::put('update/{id}', [UserController::class, 'update']);
+
+    Route::delete('destroy/{id}', [UserController::class, 'destroy']);
+});
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

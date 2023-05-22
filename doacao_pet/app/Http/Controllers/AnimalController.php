@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Animal;
+
 class AnimalController extends Controller
 {
     /**
@@ -11,7 +13,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        //
+        return Animal::all();
     }
 
     /**
@@ -19,7 +21,7 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Animal::create($request->all());
     }
 
     /**
@@ -27,7 +29,7 @@ class AnimalController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Animal::findOrFail($id);
     }
 
     /**
@@ -35,7 +37,7 @@ class AnimalController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return Animal::where('id', $id)->update($request->all());
     }
 
     /**
@@ -43,6 +45,6 @@ class AnimalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return Animal::destroy($id);
     }
 }
