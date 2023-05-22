@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\InstituitionController;
+use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\AnimalController;
 
 use Illuminate\Http\Request;
@@ -33,28 +33,28 @@ Route::group(['prefix' => 'user'], function() {
 
 Route::group(['prefix' => 'institution'], function() {
 
-    Route::get('index', [UserController::class, 'index']);
+    Route::get('index', [InstitutionController::class, 'index']);
 
-    Route::post('store', [UserController::class, 'store']);
+    Route::post('store', [InstitutionController::class, 'store']);
 
-    Route::get('show/{id}', [UserController::class, 'show']);
+    Route::get('show/{id}', [InstitutionController::class, 'show']);
 
-    Route::put('update/{id}', [UserController::class, 'update']);
+    Route::put('update/{id}', [InstitutionController::class, 'update']);
 
-    Route::delete('destroy/{id}', [UserController::class, 'destroy']);
+    Route::delete('destroy/{id}', [InstitutionController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'animal'], function() {
 
-    Route::get('index', [UserController::class, 'index']);
+    Route::get('index', [AnimalController::class, 'index']);
 
-    Route::post('store', [UserController::class, 'store']);
+    Route::post('store', [AnimalController::class, 'store']);
 
-    Route::get('show/{id}', [UserController::class, 'show']);
+    Route::get('show/{id}', [AnimalController::class, 'show']);
 
-    Route::put('update/{id}', [UserController::class, 'update']);
+    Route::put('update/{id}', [AnimalController::class, 'update']);
 
-    Route::delete('destroy/{id}', [UserController::class, 'destroy']);
+    Route::delete('destroy/{id}', [AnimalController::class, 'destroy']);
 });
 
 
