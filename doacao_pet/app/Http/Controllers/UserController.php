@@ -21,7 +21,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return User::create($request->all());
+        if(User::create($request->all())) {[
+            return response()->json([
+                'message' => 'Usuário cadastrado com sucesso.'
+            ], 201);
+        ]} else {
+            return response()->json([
+                'message' => 'Erro ao cadastrar usuário.'
+            ], 404);
+        }
     }
 
     /**
@@ -29,7 +37,14 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        return User::findOrFail($id);
+        $user = User::find($id); // eloquent find procura pelo id da chave primaria, caso queria procurar por outro campo, deverá usar o where
+        if($user) {
+            return $user;
+        } else {
+            return response()->json([
+                'message' => 'Erro ao pesquisar por usuário.'
+            ], 404);
+        }
     }
 
     /**
@@ -37,7 +52,16 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return User::where('id', $id)->update($request->all());
+        $user = User::find($id);
+        if($user) {
+            $user->update($request->all());
+            return $user;
+        } else {
+            return response()->json([
+                'message' => 'Erro ao atualizar dados do usuário.'
+            ], 404);
+        }
+        // return User::where('id', $id)->update($request->all());
     }
 
     /**
@@ -45,6 +69,14 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        return User::destroy($id);
+        if(User::destroy($id)) {
+            return response()->json([
+                'message' => 'Usuário deletado com sucesso.'
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Erro ao deletar o usuário.'
+            ], 404);
+        }
     }
 }

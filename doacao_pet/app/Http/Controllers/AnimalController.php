@@ -21,7 +21,15 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        return Animal::create($request->all());
+        if(Animal::create($request->all())) {[
+            return response()->json([
+                'message' => 'Animal cadastrado com sucesso.'
+            ], 201);
+        ]} else {
+            return response()->json([
+                'message' => 'Erro ao cadastrar animal.'
+            ], 404);
+        }
     }
 
     /**
@@ -29,7 +37,14 @@ class AnimalController extends Controller
      */
     public function show(string $id)
     {
-        return Animal::findOrFail($id);
+        $animal = Animal::find($id);
+        if($animal) {
+            return $animal;
+        } else {
+            return response()->json([
+                'message' => 'Erro ao pesquisar por animal.'
+            ], 404);
+        }
     }
 
     /**
@@ -37,7 +52,16 @@ class AnimalController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return Animal::where('id', $id)->update($request->all());
+        $animal = Animal::find($id);
+        if($animal) {
+            $animal->update($request->all());
+            return $animal;
+        } else {
+            return response()->json([
+                'message' => 'Erro ao atualizar as informações do animal.'
+            ], 404);
+        }
+        // return Animal::where('id', $id)->update($request->all());
     }
 
     /**
@@ -45,6 +69,14 @@ class AnimalController extends Controller
      */
     public function destroy(string $id)
     {
-        return Animal::destroy($id);
+        if(Animal::destroy($id)) {
+            return response()->json([
+                'message' => 'Animal deletado com sucesso.'
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Erro ao deletar as informações do animal.'
+            ], 404);
+        }
     }
 }

@@ -21,7 +21,15 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
-        return Institution::create($request->all());
+        if(Institution::create($request->all())) {
+            return response()->json([
+                'message' => 'Instituição cadastrado com sucesso.'
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Erro ao cadastrar usuário.'
+            ], 404);
+        }
     }
 
     /**
@@ -29,7 +37,14 @@ class InstitutionController extends Controller
      */
     public function show(string $id)
     {
-        return Institution::findOrFail($id);
+        $institution = Institution::find($id);
+        if($institution) {
+            return $institution;
+        } else {
+            return response()->json([
+                'message' => 'Erro ao pesquisar por uma instituição.'
+            ], 404);
+        }
     }
 
     /**
@@ -37,7 +52,16 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return Institution::where('id', $id)->update($request->all());
+        $institution = Institution::find($id);
+        if($institution) {
+            $institution->update($request->all());
+            return $institution;
+        } else {
+            return response()->json([
+                'message' => 'Erro ao atualizar dados da instituição.'
+            ], 404);
+        }
+        // return Institution::where('id', $id)->update($request->all());
     }
 
     /**
@@ -45,6 +69,14 @@ class InstitutionController extends Controller
      */
     public function destroy(string $id)
     {
-        return Institution::destroy($id);
+        if(Institution::destroy($id)) {
+            return response()->json([
+                'message' => 'Instituição deletada com sucesso.'
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Erro ao deletar a instituição.'
+            ], 404);
+        }
     }
 }
