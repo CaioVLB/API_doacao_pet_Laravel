@@ -21,11 +21,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if(User::create($request->all())) {[
+        if(User::create($request->all())) {
             return response()->json([
                 'message' => 'Usuário cadastrado com sucesso.'
             ], 201);
-        ]} else {
+        } else {
             return response()->json([
                 'message' => 'Erro ao cadastrar usuário.'
             ], 404);
