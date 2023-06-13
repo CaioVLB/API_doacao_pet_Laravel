@@ -2,81 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use Mockery\Exception;
 use Illuminate\Http\Request;
 
 use App\Models\User;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         return User::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        if(User::create($request->all())) {
+        try {
+            User::create([
+                'name' => $request -> nome_usuario,
+                'cpf' => $request -> cpf_usuario,
+                'email' => $request -> email_usuario,
+                'password' => $hash_password,
+                'location' => $request -> cep_usuario
+            ]);
+
             return response()->json([
                 'message' => 'Usuário cadastrado com sucesso.'
             ], 201);
-        } else {
+
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao cadastrar usuário.'
-            ], 404);
+                'message' => 'Erro ao processar o cadastro do usuário.'
+            ], 500);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         $user = User::find($id); // eloquent find procura pelo id da chave primaria, caso queria procurar por outro campo, deverá usar o where
         if($user) {
-            return $user;
+            return response()->json(
+                $user
+            , 200);
         } else {
             return response()->json([
                 'message' => 'Erro ao pesquisar por usuário.'
-            ], 404);
+            ], 400);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        if($user) {
-            $user->update($request->all());
-            return $user;
-        } else {
+        try {
+            $user = User::find($id);
+            if($user) {
+                $user->update([
+                    'name' => $request -> nome_usuario,
+                    'cpf' => $request -> cpf_usuario,
+                    'email' => $request -> email_usuario,
+                    'password' => $request -> senha_usuario,
+                    'location' => $request -> cep_usuario
+                ]);
+
+                return response()->json([
+                    'message' => 'Dados do usuário atualizado com sucesso.'
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Erro ao atualizar dados do usuário.'
+                ], 400);
+            }
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao atualizar dados do usuário.'
-            ], 404);
+                'message' => 'Erro ao processar a atualização dos dados do usuário.'
+            ], 500);
         }
-        // return User::where('id', $id)->update($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         if(User::destroy($id)) {
             return response()->json([
                 'message' => 'Usuário deletado com sucesso.'
-            ], 201);
+            ], 200);
         } else {
             return response()->json([
                 'message' => 'Erro ao deletar o usuário.'
-            ], 404);
+            ], 400);
         }
     }
 }

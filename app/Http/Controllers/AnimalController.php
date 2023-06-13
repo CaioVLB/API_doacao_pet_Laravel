@@ -2,81 +2,94 @@
 
 namespace App\Http\Controllers;
 
+use Mockery\Exception;
 use Illuminate\Http\Request;
 
 use App\Models\Animal;
 
 class AnimalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return Animal::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        if(Animal::create($request->all())) {[
+        try {
+            Animal::create([
+                'name' => $request -> nome_animal,
+                'age' => $request -> idade_animal,
+                'animal_breed' => $request -> raca_animal,
+                'description' => $request -> descricao_animal,
+                'sex' => $request -> sexo_animal,
+                'animal_image' => $image_name
+            ]);
+
             return response()->json([
                 'message' => 'Animal cadastrado com sucesso.'
             ], 201);
-        ]} else {
+
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao cadastrar animal.'
-            ], 404);
+                'message' => 'Erro ao processar o cadastrar do animal.'
+            ], 500);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         $animal = Animal::find($id);
         if($animal) {
-            return $animal;
+            return response()->json(
+                $animal
+            , 200);
         } else {
             return response()->json([
                 'message' => 'Erro ao pesquisar por animal.'
-            ], 404);
+            ], 400);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $animal = Animal::find($id);
-        if($animal) {
-            $animal->update($request->all());
-            return $animal;
-        } else {
+        try {
+            $animal = Animal::find($id);
+            if($animal) {
+                $animal->update([
+                    'name' => $request -> nome_animal,
+                    'age' => $request -> idade_animal,
+                    'animal_breed' => $request -> raca_animal,
+                    'description' => $request -> descricao_animal,
+                    'sex' => $request -> sexo_animal,
+                    'animal_image' => $image_name
+                ]);
+
+                return response()->json([
+                    'message' => 'Dados do animal atualizado com sucesso.'
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Erro ao atualizar as informações do animal.'
+                ], 400);
+            }
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao atualizar as informações do animal.'
-            ], 404);
+                'message' => 'Erro ao processar a atualização dos dados do animal.'
+            ], 500);
         }
-        // return Animal::where('id', $id)->update($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         if(Animal::destroy($id)) {
             return response()->json([
                 'message' => 'Animal deletado com sucesso.'
-            ], 201);
+            ], 200);
         } else {
             return response()->json([
                 'message' => 'Erro ao deletar as informações do animal.'
-            ], 404);
+            ], 400);
         }
     }
 }

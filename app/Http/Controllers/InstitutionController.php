@@ -2,81 +2,106 @@
 
 namespace App\Http\Controllers;
 
+use Mockery\Exception;
 use Illuminate\Http\Request;
 
 use App\Models\Institution;
 
 class InstitutionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return Institution::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        if(Institution::create($request->all())) {
+        try {
+            Institution::create([
+                'company_name' => $request -> nome_instituicao,
+                'cnpj' => $request -> cnpj_instituicao,
+                'description' => $request -> descricao_instituicao,
+                'location' => $request -> cep_instituicao,
+                'institution_image' => $image_name,
+                'bank_name' => $request -> banco_instituicao,
+                'agency' => $request -> agencia_instituicao,
+                'current_account' => $request -> conta_corrente_instituicao,
+                'pix_key' => $request -> pix_instituicao,
+                'corporate_name' => $request -> razao_social_instituicao,
+                'email' => $request -> email_instituicao,
+                'password' => $hash_password
+            ]);
+
             return response()->json([
-                'message' => 'Instituição cadastrado com sucesso.'
+                'message' => 'Instituição cadastrada com sucesso.'
             ], 201);
-        } else {
+
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao cadastrar usuário.'
-            ], 404);
+                'message' => 'Erro ao processar o cadastro da instituição.'
+            ], 500);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         $institution = Institution::find($id);
         if($institution) {
-            return $institution;
+            return response()->json(
+                $institution
+            , 200);
         } else {
             return response()->json([
                 'message' => 'Erro ao pesquisar por uma instituição.'
-            ], 404);
+            ], 400);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $institution = Institution::find($id);
-        if($institution) {
-            $institution->update($request->all());
-            return $institution;
-        } else {
+        try {
+            $institution = Institution::find($id);
+            if($institution) {
+                $institution->update([
+                    'company_name' => $request -> nome_instituicao,
+                    'cnpj' => $request -> cnpj_instituicao,
+                    'description' => $request -> descricao_instituicao,
+                    'location' => $request -> cep_instituicao,
+                    'institution_image' => $image_name,
+                    'bank_name' => $request -> banco_instituicao,
+                    'agency' => $request -> agencia_instituicao,
+                    'current_account' => $request -> conta_corrente_instituicao,
+                    'pix_key' => $request -> pix_instituicao,
+                    'corporate_name' => $request -> razao_social_instituicao,
+                    'email' => $request -> email_instituicao,
+                    'password' => $hash_password
+                ]);
+
+                return response()->json([
+                    'message' => 'Dados da instituição atualizado com sucesso.'
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Erro ao atualizar dados da instituição.'
+                ], 400);
+            }
+        } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao atualizar dados da instituição.'
-            ], 404);
+                'message' => 'Erro ao processar a atualização dos dados da instituição.'
+            ], 500);
         }
-        // return Institution::where('id', $id)->update($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         if(Institution::destroy($id)) {
             return response()->json([
                 'message' => 'Instituição deletada com sucesso.'
-            ], 201);
+            ], 200);
         } else {
             return response()->json([
                 'message' => 'Erro ao deletar a instituição.'
-            ], 404);
+            ], 400);
         }
     }
 }
