@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Mockery\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 
@@ -18,6 +19,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
+            $hash_password = Hash::make($request->senha_usuario);
+
             User::create([
                 'name' => $request -> nome_usuario,
                 'cpf' => $request -> cpf_usuario,
@@ -27,7 +30,8 @@ class UserController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Usuário cadastrado com sucesso.'
+                'message' => 'Usuário cadastrado com sucesso.',
+                'free_access' => true
             ], 201);
 
         } catch (Exception $e) {
@@ -60,7 +64,6 @@ class UserController extends Controller
                     'name' => $request -> nome_usuario,
                     'cpf' => $request -> cpf_usuario,
                     'email' => $request -> email_usuario,
-                    'password' => $request -> senha_usuario,
                     'location' => $request -> cep_usuario
                 ]);
 

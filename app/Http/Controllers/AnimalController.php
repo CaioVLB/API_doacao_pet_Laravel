@@ -17,6 +17,14 @@ class AnimalController extends Controller
     public function store(Request $request)
     {
         try {
+            if($request->hasFile('imagem_animal') && $request->file('imagem_animal')->isValid()) {
+                $request_image = $request->imagem_animal;
+                $extension = $request_image->extension();
+                $image_name = md5($request_image->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+                $request_image->move(public_path('ImagemAnimal'), $image_name);
+            }
+
             Animal::create([
                 'name' => $request -> nome_animal,
                 'age' => $request -> idade_animal,
@@ -56,6 +64,15 @@ class AnimalController extends Controller
         try {
             $animal = Animal::find($id);
             if($animal) {
+                $image_name = Animal::where('id', $id)->first()->animal_image;
+                if($request->hasFile('imagem_animal') && $request->file('imagem_animal')->isValid()) {
+                    $request_image = $request->imagem_animal;
+                    $extension = $request_image->extension();
+                    $image_name = md5($request_image->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+                    $request_image->move(public_path('ImagemAnimal'), $image_name);
+                }
+
                 $animal->update([
                     'name' => $request -> nome_animal,
                     'age' => $request -> idade_animal,

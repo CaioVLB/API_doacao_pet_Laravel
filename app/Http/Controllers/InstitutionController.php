@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Mockery\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Institution;
 
@@ -17,6 +18,16 @@ class InstitutionController extends Controller
     public function store(Request $request)
     {
         try {
+            if($request->hasFile('imagem_instituicao') && $request->file('imagem_instituicao')->isValid()) {
+                $request_image = $request->imagem_instituicao;
+                $extension = $request_image->extension();
+                $image_name = md5($request_image->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+                $request_image->move(public_path('ImagemInstituicao'), $image_name);
+            }
+
+            $hash_password = Hash::make($request->senha_instituicao);
+
             Institution::create([
                 'company_name' => $request -> nome_instituicao,
                 'cnpj' => $request -> cnpj_instituicao,
@@ -62,6 +73,15 @@ class InstitutionController extends Controller
         try {
             $institution = Institution::find($id);
             if($institution) {
+                $image_name = Institution::where('id', $id)->first()->institution_image;
+                if($request->hasFile('imagem_instituicao') && $request->file('imagem_instituicao')->isValid()) {
+                    $request_image = $request->imagem_instituicao;
+                    $extension = $request_image->extension();
+                    $image_name = md5($request_image->getClientOriginalName() . strtotime("now")) . "." . $extension;
+
+                    $request_image->move(public_path('ImagemInstituicao'), $image_name);
+                }
+
                 $institution->update([
                     'company_name' => $request -> nome_instituicao,
                     'cnpj' => $request -> cnpj_instituicao,
@@ -73,8 +93,7 @@ class InstitutionController extends Controller
                     'current_account' => $request -> conta_corrente_instituicao,
                     'pix_key' => $request -> pix_instituicao,
                     'corporate_name' => $request -> razao_social_instituicao,
-                    'email' => $request -> email_instituicao,
-                    'password' => $hash_password
+                    'email' => $request -> email_instituicao
                 ]);
 
                 return response()->json([

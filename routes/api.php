@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\ConsultZipCodeController;
+use App\Http\Controllers\LoginController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,7 +59,10 @@ Route::group(['prefix' => 'animal'], function() {
     Route::delete('destroy/{id}', [AnimalController::class, 'destroy']);
 });
 
-Route::post('/consult-zip-code/{location}', [ConsultZipCodeController::class, 'consultZipCode']);
+Route::post('/consult_zip_code/{location}', [ConsultZipCodeController::class, 'consultZipCode']);
+
+Route::post('/verify_auth', [LoginController::class, 'auth']);
+Route::post('/change_password', [LoginController::class, 'changePassword']);
 
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
