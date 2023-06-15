@@ -13,20 +13,32 @@ class LoginController extends Controller
     public function auth(Request $request) {
 
         // $credenciais = $request->validate([
-        //     'email' => ['required', 'email', 'unique'], //TODO: Colocar esse 'unique' e a mensagem lá no momento de cadastrar
+        //     'email' => ['required', 'email'], //TODO: Colocar esse 'unique' e a mensagem lá no momento de cadastrar
         //     'senha' => ['required'],
-
+        // ],
+        // [
         //     'email.required' => 'O preenchimento do campo email é obrigatório.',
         //     'email.email' => 'Digite um e-mail válido.',
-        //     'email.unique' => 'E-mail já está em uso.',
         //     'senha.required' => 'O preenchimento do campo senha é obrigatório.'
         // ]);
 
         $senha_user = User::where('email', $request->email)->first(['email', 'password']);
         $senha_institution = Institution::where('email', $request->email)->first(['email', 'password']);
 
+        if($senha_user) {
+            $verify_user = Hash::check($request->senha, $senha_user->password);
+        } else {
+            $verify_user = false;
+        }
+
+        if($senha_institution) {
+            $verify_institution = Hash::check($request->senha, $senha_institution->password);
+        } else {
+            $verify_institution = false;
+        }
+
         if($senha_user || $senha_institution) {
-            if(Hash::check($request->senha, $senha_user->password) || Hash::check($request->senha, $senha_institution->password)) { //TODO:verificar com o luiz o porque de dar erro quando a confição dá 'null'
+            if( $verify_user || $verify_institution) {
                 return response()->json([
                     'message' => 'Autenticado efetuada com sucesso.',
                     'free_access' => true
