@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 
+use App\Http\Controllers\ConsultZipCodeController;
+
 class UserController extends Controller
 {
 
@@ -45,6 +47,12 @@ class UserController extends Controller
     {
         $user = User::find($id); // eloquent find procura pelo id da chave primaria, caso queria procurar por outro campo, deverá usar o where
         if($user) {
+            
+            if($user->location) {
+                $location = (new ConsultZipCodeController())->consultZipCode($user->location);
+                $user->location = $location;
+            }
+
             return response()->json(
                 $user
             , 200);

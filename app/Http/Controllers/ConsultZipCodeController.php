@@ -11,6 +11,6 @@ class ConsultZipCodeController extends Controller
         $cep = $location;
 
         $response = Http::get("viacep.com.br/ws/$cep/json/")->json();
-        dd($response);
+        return $response;
     }
 }

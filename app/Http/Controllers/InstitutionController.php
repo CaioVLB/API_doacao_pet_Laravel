@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Models\Institution;
 
+use App\Http\Controllers\ConsultZipCodeController;
+
 class InstitutionController extends Controller
 {
     public function index()
@@ -58,6 +60,12 @@ class InstitutionController extends Controller
     {
         $institution = Institution::find($id);
         if($institution) {
+
+            if($institution->location) {
+                $location = (new ConsultZipCodeController())->consultZipCode($institution->location);
+                $institution->location = $location;
+            }
+
             return response()->json(
                 $institution
             , 200);
