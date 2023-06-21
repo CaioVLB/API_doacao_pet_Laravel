@@ -27,7 +27,7 @@
 
 ## 3° Realizar as modificações necessária no arquivo .env
 <p>
-    ## Na porta (DB_PORT: 3306) tem que está o mysql, caso essa porta já esteja sendo utilizar e que não seja pelo mysql, modifique a porta e coloque o mysql nela.<br>
+    ## Na porta (DB_PORT: 3306) tem que está o mysql, caso essa porta já esteja sendo utilizada e não seja pelo mysql, modifique a porta e coloque o mysql nela.<br>
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
