@@ -21,19 +21,20 @@
 
 ## 2° Clonar o arquivo .env.example e renomear para .env
 <p align="center">
-   No Linux: cp .env.example .env <br>
-   No Windows: copy .env.example .env
+   Linux: cp .env.example .env <br>
+   Windows: copy .env.example .env
 </p>
 
 ## 3° Realizar as modificações necessária no arquivo .env
 <p>
-    ## Na porta (DB_PORT: 3306) tem que está o mysql, caso essa porta já esteja sendo utilizada e não seja pelo mysql, modifique a porta e coloque o mysql nela.<br>
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=doacao_pet
-    DB_USERNAME=root
-    DB_PASSWORD=root 
+    ## Na porta (DB_PORT: 3306) tem que está o mysql, caso essa porta já esteja sendo utilizada e não seja pelo mysql, modifique a porta e coloque o mysql nela.
+    <br>
+    DB_CONNECTION=mysql <br>
+    DB_HOST=127.0.0.1 <br>
+    DB_PORT=3306 <br>
+    DB_DATABASE=doacao_pet <br>
+    DB_USERNAME=root <br>
+    DB_PASSWORD=root <br>
 </p>
 
 ## 4° Gerar a APP_KEY do arquivo .env
