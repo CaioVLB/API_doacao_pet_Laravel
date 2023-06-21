@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Institution;
 
 use App\Http\Controllers\ConsultZipCodeController;
+use App\Http\Requests\InstitutionRequest;
 
 class InstitutionController extends Controller
 {
@@ -17,7 +18,7 @@ class InstitutionController extends Controller
         return Institution::all();
     }
 
-    public function store(Request $request)
+    public function store(InstitutionRequest $request)
     {
         try {
             if($request->hasFile('imagem_instituicao') && $request->file('imagem_instituicao')->isValid()) {
@@ -28,6 +29,7 @@ class InstitutionController extends Controller
                 $request_image->move(public_path('ImagemInstituicao'), $image_name);
             }
 
+            $convert_email = strtolower($request->email_instituicao);
             $hash_password = Hash::make($request->senha_instituicao);
 
             Institution::create([
@@ -41,7 +43,7 @@ class InstitutionController extends Controller
                 'current_account' => $request -> conta_corrente_instituicao,
                 'pix_key' => $request -> pix_instituicao,
                 'corporate_name' => $request -> razao_social_instituicao,
-                'email' => $request -> email_instituicao,
+                'email' => $convert_email,
                 'password' => $hash_password
             ]);
 
@@ -76,7 +78,7 @@ class InstitutionController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(InstitutionRequest $request, $id)
     {
         try {
             $institution = Institution::find($id);
@@ -90,6 +92,8 @@ class InstitutionController extends Controller
                     $request_image->move(public_path('ImagemInstituicao'), $image_name);
                 }
 
+                $convert_email = strtolower($request->email_instituicao);
+
                 $institution->update([
                     'company_name' => $request -> nome_instituicao,
                     'cnpj' => $request -> cnpj_instituicao,
@@ -101,7 +105,7 @@ class InstitutionController extends Controller
                     'current_account' => $request -> conta_corrente_instituicao,
                     'pix_key' => $request -> pix_instituicao,
                     'corporate_name' => $request -> razao_social_instituicao,
-                    'email' => $request -> email_instituicao
+                    'email' => $convert_email
                 ]);
 
                 return response()->json([

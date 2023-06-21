@@ -12,15 +12,15 @@ class LoginController extends Controller
 {
     public function auth(Request $request) {
 
-        // $credenciais = $request->validate([
-        //     'email' => ['required', 'email'], //TODO: Colocar esse 'unique' e a mensagem lá no momento de cadastrar
-        //     'senha' => ['required'],
-        // ],
-        // [
-        //     'email.required' => 'O preenchimento do campo email é obrigatório.',
-        //     'email.email' => 'Digite um e-mail válido.',
-        //     'senha.required' => 'O preenchimento do campo senha é obrigatório.'
-        // ]);
+        $credenciais = $request->validate([
+            'email' => ['required', 'email'],
+            'senha' => ['required'],
+        ],
+        [
+            'email.required' => 'O preenchimento do campo E-MAIL é obrigatório.',
+            'email.email' => 'Digite um E-MAIL válido.',
+            'senha.required' => 'O preenchimento do campo SENHA é obrigatório.'
+        ]);
 
         $senha_user = User::where('email', $request->email)->first(['email', 'password']);
         $senha_institution = Institution::where('email', $request->email)->first(['email', 'password']);

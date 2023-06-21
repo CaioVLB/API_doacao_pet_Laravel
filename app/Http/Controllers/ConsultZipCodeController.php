@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class ConsultZipCodeController extends Controller
 {
-    public function consultZipCode($location) { //TODO: Agora eu preciso pensar em uma forma de colocar essa consulta tanto n método index, quanto show (para USER e INSTITUITION).
+    public function consultZipCode($location) {
         $cep = $location;
 
         $response = Http::get("viacep.com.br/ws/$cep/json/")->json();

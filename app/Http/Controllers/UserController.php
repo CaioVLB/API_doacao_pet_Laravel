@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 use App\Http\Controllers\ConsultZipCodeController;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -18,15 +19,16 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         try {
+            $convert_email = strtolower($request->email_usuario);
             $hash_password = Hash::make($request->senha_usuario);
 
             User::create([
                 'name' => $request -> nome_usuario,
                 'cpf' => $request -> cpf_usuario,
-                'email' => $request -> email_usuario,
+                'email' => $convert_email,
                 'password' => $hash_password,
                 'location' => $request -> cep_usuario
             ]);
@@ -47,7 +49,7 @@ class UserController extends Controller
     {
         $user = User::find($id); // eloquent find procura pelo id da chave primaria, caso queria procurar por outro campo, deverá usar o where
         if($user) {
-            
+
             if($user->location) {
                 $location = (new ConsultZipCodeController())->consultZipCode($user->location);
                 $user->location = $location;
@@ -63,15 +65,16 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         try {
+            $convert_email = strtolower($request->email_usuario);
             $user = User::find($id);
             if($user) {
                 $user->update([
                     'name' => $request -> nome_usuario,
                     'cpf' => $request -> cpf_usuario,
-                    'email' => $request -> email_usuario,
+                    'email' => $convert_email,
                     'location' => $request -> cep_usuario
                 ]);
 

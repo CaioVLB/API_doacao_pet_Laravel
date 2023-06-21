@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Animal;
 
+use App\Http\Requests\AnimalRequest;
+
 class AnimalController extends Controller
 {
     public function index()
@@ -14,7 +16,7 @@ class AnimalController extends Controller
         return Animal::all();
     }
 
-    public function store(Request $request)
+    public function store(AnimalRequest $request)
     {
         try {
             if($request->hasFile('imagem_animal') && $request->file('imagem_animal')->isValid()) {
@@ -59,7 +61,7 @@ class AnimalController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(AnimalRequest $request, $id)
     {
         try {
             $animal = Animal::find($id);
