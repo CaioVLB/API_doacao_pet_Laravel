@@ -34,7 +34,7 @@
     DB_PORT=3306 <br>
     DB_DATABASE=doacao_pet <br>
     DB_USERNAME=root <br>
-    DB_PASSWORD=root <br>
+    DB_PASSWORD= <br>
 </p>
 
 ## 4° Gerar a APP_KEY do arquivo .env
