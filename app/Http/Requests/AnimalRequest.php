@@ -24,8 +24,8 @@ class AnimalRequest extends FormRequest
     {
         return [
             'nome_animal' => ['required'],
-            'sexo_animal' => ['required'],
-            'imagem_animal' => ['required', 'mimes:png,jpg,jpeg', 'max:30000']
+            'sexo_animal' => ['required']
+            // 'imagem_animal' => ['required', 'mimes:png,jpg,jpeg', 'max:30000']
         ];
     }
 
@@ -33,10 +33,10 @@ class AnimalRequest extends FormRequest
     {
         return [
             'nome_animal.required' => 'O campo NOME é obrigatório',
-            'sexo_animal.required' => 'O campo SEXO do animal é obrigatório. ',
-            'imagem_animal.required' => 'Anexe uma IMAGEM do animal.',
-            'imagem_animal.mimes' => 'Formato de arquivo de IMAGEM inválida. Somente formatos JPG, JPEG e PNG são permitidos.',
-            'imagem_animal.max' => 'Tamanho de arquivo de IMAGEM inválido. Tamanho máximo permitido é de 30 megabytes.'
+            'sexo_animal.required' => 'O campo SEXO do animal é obrigatório. '
+            // 'imagem_animal.required' => 'Anexe uma IMAGEM do animal.',
+            // 'imagem_animal.mimes' => 'Formato de arquivo de IMAGEM inválida. Somente formatos JPG, JPEG e PNG são permitidos.',
+            // 'imagem_animal.max' => 'Tamanho de arquivo de IMAGEM inválido. Tamanho máximo permitido é de 30 megabytes.'
         ];
     }
 }

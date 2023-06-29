@@ -28,7 +28,7 @@ class InstitutionRequest extends FormRequest
             'senha_instituicao' => ['required'],
             'cnpj_instituicao' => ['required'],
             'cep_instituicao' => ['required'],
-            'imagem_instituicao' => ['required', 'mimes:png,jpg,jpeg', 'max:30000'],
+            // 'imagem_instituicao' => ['required', 'mimes:png,jpg,jpeg', 'max:30000'],
             'razao_social_instituicao' => ['required']
         ];
     }
@@ -43,9 +43,9 @@ class InstitutionRequest extends FormRequest
             'senha_instituicao.required' => 'O campo SENHA é obrigatório. ',
             'cnpj_instituicao.required' => 'O campo CNPJ é obrigatório. ',
             'cep_instituicao.required' => 'O campo CEP é obrigatório. ',
-            'imagem_instituicao.required' => 'Anexe uma IMAGEM da instituição.',
-            'imagem_instituicao.mimes' => 'Formato de arquivo de IMAGEM inválida. Somente formatos JPG, JPEG e PNG são permitidos.',
-            'imagem_instituicao.max' => 'Tamanho de arquivo de IMAGEM inválido. Tamanho máximo permitido é de 30 megabytes.',
+            // 'imagem_instituicao.required' => 'Anexe uma IMAGEM da instituição.',
+            // 'imagem_instituicao.mimes' => 'Formato de arquivo de IMAGEM inválida. Somente formatos JPG, JPEG e PNG são permitidos.',
+            // 'imagem_instituicao.max' => 'Tamanho de arquivo de IMAGEM inválido. Tamanho máximo permitido é de 30 megabytes.',
             'razao_social_instituicao.required' => 'O campo RAZÃO SOCIAL é obrigatório.'
         ];
     }
